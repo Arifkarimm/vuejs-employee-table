@@ -2,7 +2,11 @@
   <div class="container">
     <h2>Employee Table</h2>
     <EmployeeFrom @add:employee="addEmployee" />
-    <EmployeeTable :employees="employees" @del:employee="deleteEmployee" />
+    <EmployeeTable
+      :employees="employees"
+      @del:employee="deleteEmployee"
+      @edit:employee="editEmployee"
+    />
   </div>
 </template>
 
@@ -49,6 +53,11 @@ export default {
     },
     deleteEmployee(id) {
       this.employees = this.employees.filter(employee => employee.id !== id);
+    },
+    editEmployee(id, updateEmployee) {
+      this.employees = this.employees.map(employee =>
+        employee.id === id ? updateEmployee : employee
+      );
     }
   }
 };
