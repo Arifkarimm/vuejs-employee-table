@@ -2,7 +2,7 @@
   <div class="container">
     <h2>Employee Table</h2>
     <EmployeeFrom @add:employee="addEmployee" />
-    <EmployeeTable :employees="employees" />
+    <EmployeeTable :employees="employees" @del:employee="deleteEmployee" />
   </div>
 </template>
 
@@ -46,10 +46,28 @@ export default {
       const id = lastId + 1;
       const newEmployee = { ...employee, id };
       this.employees = [...this.employees, newEmployee];
+    },
+    deleteEmployee(id) {
+      this.employees = this.employees.filter(employee => employee.id !== id);
     }
   }
 };
 </script>
 
-<style scoped>
+<style >
+button {
+  background: #009435;
+  border: 1px solid #009435;
+}
+
+button:hover,
+button:active,
+button:focus {
+  background: #32a95d;
+  border: 1px solid #32a95d;
+}
+
+.small-container {
+  max-width: 680px;
+}
 </style>
