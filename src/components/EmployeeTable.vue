@@ -51,6 +51,7 @@ export default {
       Object.assign(employee, this.cachedEmployee);
       this.editing = null;
     },
+
     editEmployee(employee) {
       if (employee.name === "" || employee.email === "") {
         return;
