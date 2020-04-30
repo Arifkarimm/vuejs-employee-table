@@ -10,20 +10,20 @@
         </tr>
       </thead>
       <tr v-for="employee in employees" :key="employee.id">
-        <td v-if="editting === employee.id">
+        <td v-if="editing === employee.id">
           <input type="text" v-model="employee.name" />
         </td>
         <td v-else>{{ employee.name }}</td>
-        <td v-if="editting === employee.id">
+        <td v-if="editing === employee.id">
           <input type="text" v-model="employee.email" />
         </td>
         <td v-else>{{ employee.email }}</td>
-        <td v-if="editting === employee.id">
+        <td v-if="editing === employee.id">
           <button @click="editEmployee(employee)">Save</button>
-          <button @click="editting = null">Cancel</button>
+          <button class="muted-button" @click="cancelEdit(employee)">Cancel</button>
         </td>
         <td v-else>
-          <button @click="editMode(employee.id)">Edit</button>
+          <button @click="editMode(employee)">Edit</button>
           <button @click="$emit('del:employee', employee.id)">Delete</button>
         </td>
       </tr>
@@ -39,19 +39,24 @@ export default {
   },
   data() {
     return {
-      editting: null
+      editing: null
     };
   },
   methods: {
-    editMode(id) {
-      this.editting = id;
+    editMode(employee) {
+      this.cachedEmployee = Object.assign({}, employee);
+      this.editing = employee.id;
+    },
+    cancelEdit(employee) {
+      Object.assign(employee, this.cachedEmployee);
+      this.editing = null;
     },
     editEmployee(employee) {
       if (employee.name === "" || employee.email === "") {
         return;
       }
       this.$emit("edit:employee", employee.id, employee);
-      this.editting = null;
+      this.editing = null;
     }
   }
 };
